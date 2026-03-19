@@ -1,0 +1,25 @@
+body{
+    background-color: #050505;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 20px;
+}
+.hacker-console {
+  border: 1px solid #00ff00;
+  padding: 15px;
+  box-shadow: 0 0 10px #00ff00;
+}
+#cursor {
+  display: inline-block;
+  width: 10px;
+  background-color: #00ff00;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+h1{
+    font-size: large;
+}
