@@ -1,6 +1,6 @@
 var user = null;
 var study = null;
-var texto = '';
+var retorno = '';
 const LINE_BREAK = "<p> </p>";
 
 function loadingscreen(){
@@ -11,10 +11,18 @@ function loadingscreen(){
 function proceed_to(s){
     $('#loading').addClass('inactive');
     $(s).removeClass('inactive');
-    if(s!='login') $('.nav').removeClass('inactive');
+    if(s!='#login') $('.nav').removeClass('inactive');
 }
 function set_retorno(s){
-    $('#return-button').data('target', s);
+    retorno = s;
+}
+
+function errito(title, status, msg){
+    $.alert({
+        title: title + ' ' + status,
+        theme: 'supervan',
+        content: msg
+    });
 }
 
 function login(){
@@ -27,12 +35,8 @@ function login(){
         },
         dataType: 'json',
         beforeSend: loadingscreen,
-        error: () =>{
-            $.alert({
-                theme: 'supervan',
-                title: 'Erro no login',
-                content: "Erro no login, certifique-se que o nome de usuário e a senha estejam corretas"
-            });
+        error: (_, status, msg) =>{
+            errito('Erro no login', status, msg);
             proceed_to('#login');
         },
         success: (obj) =>{
@@ -45,6 +49,11 @@ function login(){
 
 function set_user(obj){
     user = obj;
+    if(user.clearance >= 3){
+        $('.admin').removeClass('inactive');
+    } else {
+        $('.admin').addClass('inactive');
+    }
 }
 
 function access_study(accessname){
@@ -57,13 +66,9 @@ function access_study(accessname){
         },
         dataType: 'json',
         beforeSend: loadingscreen,
-        error: ()=>{
-            $.alert({
-                theme: 'supervan',
-                title: 'Erro no acesso',
-                content: "Erro no acesso, certifique-se que o nome de acesso está correto e você tem a clearance necessária."
-            });
-            proceed_to('#logged');
+        error: (_, status, msg) =>{
+            errito('Erro no acesso ao Estudo', status, msg);
+            proceed_to('#loggedin');
         },
         success: load_study
     });
@@ -71,9 +76,12 @@ function access_study(accessname){
 function log(log){
     log.texto = log.texto.replaceAll("\n", LINE_BREAK);
     $retorno = $(`<div class='hacker-console'>
-        <h2>${log.display} ${log.hora}</h2>
+        <h2>${log.display} - ${log.hora}</h2>
         <p>${log.texto}</p>
     </div>`);
+    if(log.texto==''){
+        $retorno.childreen().last().remove();
+    }
     return $retorno;
 }
 function load_study(logs){
@@ -86,43 +94,16 @@ function load_study(logs){
     }
     $last = log({
         display: user.display,
-        hora: Date.now,
-        texto: "<strong id='cursor'>|</strong>"
+        hora: Date.now.toString(),
+        texto: ""
     });
     $last.addClass("editable");
-    $last.append("<br><button type='button' id='send-log'>Enviar</button>");
+    $last.append("<textarea id='sent-log'> </textarea><br><button type='button' id='send-log'>Enviar</button>");
     $('#study').append($last);
+    $last.find('button').on('click', send_log);
     
     proceed_to('#study');
-    set_retorno('#logged');
-}
-
-function editLog(e){
-    let key = e.key;
-    let $cursor = $('#cursor');
-    switch(key){
-        case "Backspace":
-            if (texto.endsWith(LINE_BREAK)){
-                $del = $cursor.parent();
-                $del.prev().append($cursor);
-                $del.remove();
-            } else {
-                texto = texto.substring(0, texto.length-1);
-                $aux = $cursor.parent();
-                $aux.html(texto);
-                $aux.append($cursor);
-            }
-            return;
-        case "Enter":
-            key = LINE_BREAK;
-            break;
-        default:
-            if(key.length > 1){
-                return;
-            }
-    }
-    texto += key;
-    $cursor.before(key);
+    set_retorno('#loggedin');
 }
 
 function send_log(){
@@ -132,15 +113,11 @@ function send_log(){
         data: {
             username: user.name,
             accessname: study.access,
-            text: texto
+            text: $('#sent-log').val()
         },
         beforeSend: loadingscreen,
-        error: () =>{
-            $.alert({
-                theme: 'supervan',
-                title: 'Erro no envio do log',
-                content: "Talvez o servidor esteja offline, oh no"
-            });
+        error: (_, status, msg) =>{
+            errito('Erro no envio do log', status, msg);
             proceed_to('#study');
         },
         success: () =>{
@@ -149,13 +126,11 @@ function send_log(){
     });
 }
 
-$('.return-button').on('click', ()=>{
+$('#return-button').on('click', ()=>{
     const $this = $(this);
-    const target = $this.data('target');
 
     loadingscreen();
-    proceed_to(target);
+    proceed_to(retorno);
 });
 $('#login-button').on('click', login);
 $('#study-button').on('click', () => {access_study($('#study-input').val());});
-$('.editable').on('keydown', editLog);

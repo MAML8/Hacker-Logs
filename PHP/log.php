@@ -2,7 +2,7 @@
     require_once("conn.php");
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if(!(isset($_POST['username']) && isset($_POST['accessname']) && isset($_POST['text']))){
-            exit(-1);
+            die('Dados não entregues');
         }
         $user = $_POST['username'];
         $access = $_POST['accessname'];

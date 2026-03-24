@@ -7,6 +7,7 @@ body{
 .hacker-console {
   border: 1px solid #00ff00;
   padding: 15px;
+  margin: 20px 0px;
   box-shadow: 0 0 10px #00ff00;
 }
 #cursor {
@@ -19,9 +20,6 @@ body{
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-h1{
-    font-size: large;
 }
 
 .inactive{

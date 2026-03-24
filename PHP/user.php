@@ -16,7 +16,7 @@
         $password = password_hash($password, PASSWORD_DEFAULT);
 
 
-        $sql = "INSERT IGNORE INTO User VALUE ('$user', '$display', '$password', $clearance)";
+        $sql = "INSERT IGNORE INTO User_ VALUE ('$user', '$display', '$password', $clearance)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
     }

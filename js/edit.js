@@ -8,7 +8,7 @@ $('#create-user').on('click', ()=>{
                 <input name='display' type='text' placeholder='Nome/Apelido'>
                 <input name='senha' type='password' placeholder='********'>
                 <input name='confirma senha' type='password' placeholder='confirmar ********'>
-                <input name='clearance' type='pnumber' value=0>
+                <input name='clearance' type='number' value=0>
             </form>
         `,
         buttons:{
@@ -16,10 +16,10 @@ $('#create-user').on('click', ()=>{
                 text: 'Cancelar',
                 action: () => {}
             },
-            enviar:{
+            formSubmit:{
                 text: 'Criar',
                 btnClass: 'btn-green',
-                action: () => {
+                action: function (){
                     const user = {
                         username: this.$content.find('input[name="user"]').val(),
                         displayname: this.$content.find('input[name="display"]').val(),
@@ -46,19 +46,16 @@ function create_user(user){
         type: 'POST',
         url: './PHP/user.php',
         data: user,
-        error: () =>{
-            $.alert({
-                theme: 'supervan',
-                title: 'Erro na criação de usuário',
-                content: '<p>Certifique-se que o nome de usuário não já exista.</p>'
-            });
+        error: (_, status, msg) =>{
+            errito('Erro na criação de usuário', status, msg);
+            proceed_to('#loggedin');
         },
         success: () =>{
             $.alert({
                 theme: 'supervan',
                 title: 'Usuário criado com sucesso!'
             });
-            proceed_to('#logged');
+            proceed_to('#loggedin');
         }
     });
 }
@@ -71,7 +68,7 @@ $('#create-study').on('click', () =>{
             <form>
                 <input name='access' type='text' placeholder='nome de acesso'>
                 <input name='display' type='text' placeholder='Nome'>
-                <label for='clearance'>Clearance para acesso:</label><input name='clearance' type='pnumber' value=0>
+                <label for='clearance'>Clearance para acesso:</label><input name='clearance' type='number' value=0>
             </form>
         `,
         buttons:{
@@ -79,10 +76,10 @@ $('#create-study').on('click', () =>{
                 text: 'Cancelar',
                 action: () => {}
             },
-            enviar:{
+            formSubmit:{
                 text: 'Criar',
                 btnClass: 'btn-green',
-                action: () => {
+                action: function(){
                     const study = {
                         access: this.$content.find('input[name="access"]').val(),
                         display: this.$content.find('input[name="display"]').val(),
@@ -101,19 +98,16 @@ function create_study(study){
         type: 'POST',
         url: './PHP/study.php',
         data: study,
-        error: () =>{
-            $.alert({
-                theme: 'supervan',
-                title: 'Erro na criação de estudo',
-                content: '<p>Certifique-se que o nome de acesso do estudo não já exista.</p>'
-            });
+        error: (_, status, msg) =>{
+            errito('Erro na criação de estudo.', status, msg);
+            proceed_to('#loggedin');
         },
         success: () =>{
             $.alert({
                 theme: 'supervan',
                 title: 'Estudo criado com sucesso!'
             });
-            proceed_to('#logged');
+            proceed_to('#loggedin');
         }
     });
 }

@@ -3,7 +3,7 @@
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
         if(!(isset($_POST['access']))){
-            exit(-1);
+            die('dados não entregues');
         }
         $access = $_POST['access'];
         $display = $access;
@@ -18,7 +18,7 @@
         $stmt->execute();
     } else if($_SERVER['REQUEST_METHOD'] == "GET"){
         if(!(isset($_GET["access"])))
-            exit(-1);
+            die('dados não entregues');
 
         $access = $_GET["access"];
         $clearance = 0;
@@ -29,18 +29,18 @@
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         sleep(1);
-        $result = $stmt->fetch(PDO::FETCH_DEFAULT);
-        if(count($result) == 0 || $clearance < $result['clearance']){
-            exit(-1);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(count($result) == 0 || $clearance < $result[0]['clearance']){
+            die('Clearence insuficiente para acesso do estudo');
         }
 
-        $sql = "SELECT U.display_name as display, L.hora, L.texto FROM User U NATURAL JOIN Log L NATURAL JOIN Study S WHERE S.access_name = '$access'";
+        $sql = "SELECT U.display_name as display, L.hora, L.texto FROM User_ U NATURAL JOIN Log L WHERE L.access_name = '$access'";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         sleep(1);
         $retorno = array(
-            'display' => $result['display'],
-            'access' => $result['access'],
+            'display' => $result[0]['display'],
+            'access' => $result[0]['access'],
             'logs' => $stmt->fetchAll(PDO::FETCH_ASSOC));
         echo json_encode($retorno);
     }
