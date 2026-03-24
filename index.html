@@ -4,12 +4,44 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hacker Style Logs</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/menu.css">
+        <link rel="stylesheet" href="css/jquery-confirm.min.css">
     </head>
     <body>
-        <div class="hacker-console">
-            <h1>Rebeca on 21/02/2026 - 15:57</h1>
-            <p>Lorem ipsulum dolor sit amet.</p><p id="cursor">|</p>
+        <header class="nav inactive">
+            <button type="button" id="return-button"></button>
+        </header>
+        <div id="loading" class="menu inactive">
+            <img src="loading.gif">
         </div>
+        <div id="login" class="menu hacker-console">
+            <h1>Entre Com Suas Credenciais</h1>
+            <input type="text" id="username" placeholder="User"><br>
+            <input type="password" id="password" placeholder="*******"><br>
+            <button type="button" id="login-button">Login</button>
+        </div>
+        <div id="loggedin" class="menu hacker-console inactive">
+            <h1>Qual estudo deseja acessar?</h1>
+            <input type="text" id="study-input" placeholder="Nome de acesso do estudo">
+            <button type="button" id="study-button">Acessar</button>
+            <div class="admin inactive">
+                <h2>Admin:</h2>
+                <button type="button" id="create-user">Criar Usuário</button>
+                <button type="button" id="create-study">Criar Estudo</button>
+                <p class="warn">Tenha noção que por preguiça, eles ainda não são editáveis após criação<p>
+            </div>
+        </div>
+        <div id="study" class="menu inactive">
+            <div class="hacker-console">
+                <h1>Rebeca on 21/02/2026 - 15:57</h1>
+                <p>Lorem ipsulum dolor sit amet</p>
+            </div>
+        </div>
+        <script></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-confirm.min.js"></script>
+        <script src="js/js.js"></script>
+        <script src="js/edit.js"></script>
     </body>
 </html>

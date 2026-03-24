@@ -1,0 +1,19 @@
+#login{
+    max-width: 300px;
+}
+#logged{
+    max-width: 300px;
+}
+
+.menu{
+    overflow: visible;
+    padding: 20px;
+    margin: 150px auto;
+    text-align: center;
+}
+
+.menu#study{
+    padding: inherit;
+    margin: inherit;
+    text-align: left;
+}

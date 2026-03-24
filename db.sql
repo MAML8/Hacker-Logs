@@ -8,7 +8,7 @@ CREATE TABLE User(
 CREATE TABLE Study(
     VARCHAR(50) access_name PRIMARY KEY,
     TINYTEXT display_name NOT NULL,
-    SMALLINT clearance_level_to_acces NOT NULL Default 1
+    SMALLINT clearance_level_to_access NOT NULL Default 1
 );
 
 CREATE TABLE Log(

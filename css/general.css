@@ -23,3 +23,7 @@ body{
 h1{
     font-size: large;
 }
+
+.inactive{
+  display: none;
+}
