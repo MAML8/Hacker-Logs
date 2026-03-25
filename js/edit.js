@@ -1,6 +1,6 @@
 $('#create-user').on('click', ()=>{
     $.confirm({
-        theme: 'supervan',
+        theme: 'hacker',
         title: 'Criar Usuário',
         content: `
             <form>
@@ -8,7 +8,7 @@ $('#create-user').on('click', ()=>{
                 <input name='display' type='text' placeholder='Nome/Apelido'>
                 <input name='senha' type='password' placeholder='********'>
                 <input name='confirma senha' type='password' placeholder='confirmar ********'>
-                <input name='clearance' type='number' value=0>
+                <label for='clearence'>Clearence</label><input name='clearance' type='number' value=0>
             </form>
         `,
         buttons:{
@@ -28,7 +28,7 @@ $('#create-user').on('click', ()=>{
                     };
                     if(user.password != this.$content.find('input[name="confirma senha"]').val()){
                         $.alert({
-                            theme: 'supervan',
+                            theme: 'hacker',
                             title: 'Senhas diferentes entregues'
                         });
                     } else {
@@ -52,7 +52,7 @@ function create_user(user){
         },
         success: () =>{
             $.alert({
-                theme: 'supervan',
+                theme: 'hacker',
                 title: 'Usuário criado com sucesso!'
             });
             proceed_to('#loggedin');
@@ -62,7 +62,7 @@ function create_user(user){
 
 $('#create-study').on('click', () =>{
     $.confirm({
-        theme: 'supervan',
+        theme: 'hacker',
         title: 'Criar Estudo',
         content: `
             <form>
@@ -104,7 +104,7 @@ function create_study(study){
         },
         success: () =>{
             $.alert({
-                theme: 'supervan',
+                theme: 'hacker',
                 title: 'Estudo criado com sucesso!'
             });
             proceed_to('#loggedin');

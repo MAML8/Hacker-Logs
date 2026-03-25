@@ -17,3 +17,61 @@
     margin: inherit;
     text-align: left;
 }
+
+/* =========================================
+   TEMA JQUERY-CONFIRM: HACKER
+   ========================================= */
+
+/* Escurece o fundo da tela quando o modal abre, com um leve tom esverdeado */
+.jconfirm.jconfirm-hacker .jconfirm-bg {
+    background-color: rgba(2, 2, 2, 0.9);
+}
+
+/* A caixa principal do modal */
+.jconfirm.jconfirm-hacker .jconfirm-box {
+    background-color: #050505;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 15px #00ff00; /* O brilho neon característico */
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 0; /* Remove bordas arredondadas do padrão */
+    padding: 10px;
+    max-width: 700px;
+}
+
+/* O título do modal */
+.jconfirm.jconfirm-hacker .jconfirm-title-c {
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ff00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* O conteúdo/texto do modal */
+.jconfirm.jconfirm-hacker .jconfirm-content {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+/* Os botões de ação do modal */
+.jconfirm.jconfirm-hacker .jconfirm-buttons button.btn.btn-default,
+.jconfirm.jconfirm-hacker .jconfirm-buttons button.btn.btn-green {
+    background-color: #050505;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 0;
+    padding: 8px 15px;
+    transition: all 0.2s ease;
+}
+
+/* Efeito ao passar o mouse nos botões do modal */
+.jconfirm.jconfirm-hacker .jconfirm-buttons button.btn.btn-default:hover,
+.jconfirm.jconfirm-hacker .jconfirm-buttons button.btn.btn-green:hover{
+    background-color: #00ff00;
+    color: #050505;
+    box-shadow: 0 0 10px #00ff00;
+}

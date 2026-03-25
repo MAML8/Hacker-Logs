@@ -25,3 +25,104 @@ body{
 .inactive{
   display: none;
 }
+
+/* =========================================
+   ESTILOS DE FORMULÁRIO (HACKER CONSOLE)
+   ========================================= */
+
+/* Estilização base para campos de entrada */
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea {
+    background-color: #020202; /* Um tom quase imperceptivelmente mais escuro que o body */
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    border: 1px solid #005500; /* Borda mais apagada quando inativo */
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Efeito de foco (quando o usuário clica para digitar) */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    border-color: #00ff00;
+    box-shadow: 0 0 8px #00ff00;
+    background-color: #050505;
+}
+
+/* Estilização do texto de placeholder (dica dentro do campo) */
+::placeholder {
+    color: #005500;
+    opacity: 0.8;
+}
+
+/* =========================================
+   TEXTAREA (REGISTROS PARANORMAIS)
+   ========================================= */
+
+textarea {
+    resize: vertical; /* Permite redimensionar apenas para baixo */
+    min-height: 200px;
+    line-height: 1.5;
+    background-color: rgba(0, 255, 0, 0.02); /* Fundo com um levíssimo tom esverdeado */
+}
+
+/* Customização da barra de rolagem (Scrollbar) exclusiva para a textarea */
+textarea::-webkit-scrollbar {
+    width: 10px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: #050505;
+    border-left: 1px solid #005500;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: #005500;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #00ff00;
+}
+
+/* =========================================
+   BOTÕES DE AÇÃO
+   ========================================= */
+
+button {
+    background-color: #050505;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #00ff00;
+    padding: 10px 20px;
+    margin-top: 15px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+}
+
+/* Efeito ao passar o mouse ou focar no botão via teclado */
+button:hover, 
+button:focus {
+    background-color: #00ff00;
+    color: #050505; /* Inverte as cores */
+    box-shadow: 0 0 15px #00ff00;
+    outline: none;
+}
+
+/* Efeito de "clique" */
+button:active {
+    box-shadow: 0 0 5px #00ff00;
+    transform: translateY(2px);
+}

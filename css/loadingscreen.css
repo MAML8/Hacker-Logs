@@ -1,0 +1,78 @@
+/* =========================================
+   TELA DE CARREGAMENTO (CRT FLICKER)
+   ========================================= */
+
+#loading {
+    position: fixed; /* Fixa na tela toda, por cima de tudo */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #050505;
+    color: #00ff00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Garante que fique acima do resto do site */
+    font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
+}
+
+/* Camada 1: Scanlines (Linhas horizontais do monitor tubo) */
+#loading::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* Cria linhas pretas finas intercaladas com transparência */
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px; /* Aumente o 4px se quiser linhas mais grossas */
+    z-index: 2;
+    pointer-events: none; /* Deixa o clique passar através do efeito */
+}
+
+/* Camada 2: O Flicker (Interferência de estática esverdeada) */
+#loading::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 255, 0, 0.03); /* Fundo verde quase transparente */
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+    animation: crt-flicker 0.15s infinite; /* Animação muito rápida e infinita */
+}
+
+/* O texto central com um leve brilho e falha */
+.loading-text {
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00ff00;
+    position: relative;
+    z-index: 3;
+    animation: text-glitch 3s infinite;
+}
+
+/* =========================================
+   ANIMAÇÕES (KEYFRAMES)
+   ========================================= */
+
+/* Faz a opacidade da tela inteira pulsar rapidamente */
+@keyframes crt-flicker {
+    0% { opacity: 0.05; }
+    50% { opacity: 0.01; }
+    100% { opacity: 0.08; }
+}
+
+/* Faz o texto "piscar" ou falhar em momentos aleatórios */
+@keyframes text-glitch {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.3; text-shadow: none; } /* Perde o brilho na falha */
+}

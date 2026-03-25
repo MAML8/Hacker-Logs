@@ -7,6 +7,7 @@ function loadingscreen(){
     $('.menu').addClass('inactive');
     $('#loading').removeClass('inactive');
     $('.nav').addClass('inactive');
+    
 }
 function proceed_to(s){
     $('#loading').addClass('inactive');
@@ -20,7 +21,7 @@ function set_retorno(s){
 function errito(title, status, msg){
     $.alert({
         title: title + ' ' + status,
-        theme: 'supervan',
+        theme: 'hacker',
         content: msg
     });
 }
@@ -75,12 +76,12 @@ function access_study(accessname){
 }
 function log(log){
     log.texto = log.texto.replaceAll("\n", LINE_BREAK);
-    $retorno = $(`<div class='hacker-console'>
+    let $retorno = $(`<div class='hacker-console'>
         <h2>${log.display} - ${log.hora}</h2>
         <p>${log.texto}</p>
     </div>`);
     if(log.texto==''){
-        $retorno.childreen().last().remove();
+        $retorno.children().last().remove();
     }
     return $retorno;
 }
@@ -94,11 +95,11 @@ function load_study(logs){
     }
     $last = log({
         display: user.display,
-        hora: Date.now.toString(),
+        hora: Date.now().toString(),
         texto: ""
     });
     $last.addClass("editable");
-    $last.append("<textarea id='sent-log'> </textarea><br><button type='button' id='send-log'>Enviar</button>");
+    $last.append("<textarea id='sent-log'></textarea><br><button type='button'>Enviar</button>");
     $('#study').append($last);
     $last.find('button').on('click', send_log);
     
@@ -121,7 +122,7 @@ function send_log(){
             proceed_to('#study');
         },
         success: () =>{
-            proceed_to('#study');
+            access_study(study.access);
         }
     });
 }
@@ -131,6 +132,7 @@ $('#return-button').on('click', ()=>{
 
     loadingscreen();
     proceed_to(retorno);
+    if(retorno=='#loggedin') set_retorno('#login');
 });
 $('#login-button').on('click', login);
 $('#study-button').on('click', () => {access_study($('#study-input').val());});
