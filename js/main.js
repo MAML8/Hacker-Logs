@@ -18,11 +18,21 @@ function set_retorno(s){
     retorno = s;
 }
 
-function errito(title, status, msg){
+function server_error(xhr, status, error) {
+    // This function handles real server errors (e.g., HTTP 500 Internal Server Error)
+    console.log("AJAX error: " + xhr.responseText);
     $.alert({
-        title: title + ' ' + status,
+        title: "ERROR",
         theme: 'hacker',
-        content: msg
+        content: '<p style="color: red;">An unexpected server error occurred.</p>'
+    });
+}
+
+function errito(title, msg){
+    $.alert({
+        title: title,
+        theme: 'hacker',
+        content: '<p>' + msg + '</p>'
     });
 }
 
@@ -36,14 +46,19 @@ function login(){
         },
         dataType: 'json',
         beforeSend: loadingscreen,
-        error: (_, status, msg) =>{
-            errito('Erro no login', status, msg);
+        error: (_, __, ___) =>{
+            server_error(_, __, ___);
             proceed_to('#login');
         },
         success: (obj) =>{
-            set_user(obj);
-            proceed_to('#loggedin');
-            set_retorno('#login');
+            if(obj.status == 'error'){
+                errito('Falha no login', obj.msg);
+                proceed_to('#login');
+            } else {
+                set_user(obj.msg);
+                proceed_to('#loggedin');
+                set_retorno('#login');
+            }
         }
     });
 }
@@ -67,11 +82,21 @@ function access_study(accessname){
         },
         dataType: 'json',
         beforeSend: loadingscreen,
-        error: (_, status, msg) =>{
-            errito('Erro no acesso ao Estudo', status, msg);
+        error: (_, __, ___) =>{
+            server_error(_, __, ___);
             proceed_to('#loggedin');
         },
-        success: load_study
+        success: (obj) =>{
+            if(obj.status == 'error'){
+                errito('Erro no acesso ao status', obj.msg)
+                proceed_to('#loggedin');
+            } else {
+                study = obj.msg;
+                load_study(obj.msg.logs);
+                proceed_to('#study');
+                set_retorno('#loggedin');
+            }
+        }
     });
 }
 function log(log){
@@ -86,9 +111,6 @@ function log(log){
     return $retorno;
 }
 function load_study(logs){
-    study = logs;
-    logs = logs.logs;
-    texto = '';
     $('#study').html(`<h1>Estudo: ${study.display}</h1>`);
     for(let i = 0; i < logs.length; i++){
         $('#study').append(log(logs[i]));
@@ -102,9 +124,6 @@ function load_study(logs){
     $last.append("<textarea id='sent-log'></textarea><br><button type='button'>Enviar</button>");
     $('#study').append($last);
     $last.find('button').on('click', send_log);
-    
-    proceed_to('#study');
-    set_retorno('#loggedin');
 }
 
 function send_log(){
@@ -117,12 +136,17 @@ function send_log(){
             text: $('#sent-log').val()
         },
         beforeSend: loadingscreen,
-        error: (_, status, msg) =>{
-            errito('Erro no envio do log', status, msg);
+        error: (_, __, ___) =>{
+            server_error(_, __, ___);
             proceed_to('#study');
         },
-        success: () =>{
-            access_study(study.access);
+        success: (obj) =>{
+            if(obj.status = 'error'){
+                errito("Erro ao enviar registro", obj.msg);
+                proceed_to('#study');
+            } else {
+                access_study(study.access);
+            }
         }
     });
 }

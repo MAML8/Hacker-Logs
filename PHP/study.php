@@ -3,7 +3,9 @@
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
         if(!(isset($_POST['access']))){
-            die('dados não entregues');
+            echo json_encode(["status" => "error", 'msg' => 'dados não entregues']);
+            $pdo = null;
+            exit;
         }
         $access = $_POST['access'];
         $display = $access;
@@ -17,9 +19,11 @@
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
     } else if($_SERVER['REQUEST_METHOD'] == "GET"){
-        if(!(isset($_GET["access"])))
-            die('dados não entregues');
-
+        if(!(isset($_GET["access"]))){
+            echo json_encode(["status" => "error", 'msg' => 'dados não entregues']);
+            $pdo = null;
+            exit;
+        }
         $access = $_GET["access"];
         $clearance = 0;
         if(isset($_GET["clearanceABALOROTAXIQUINICKLICKclearanceABALOROTAXIQUINICKLICKclearanceABALOROTAXIQUINICKLICK"]))
@@ -30,19 +34,29 @@
         $stmt->execute();
         sleep(1);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if(count($result) == 0 || $clearance < $result[0]['clearance']){
-            die('Clearence insuficiente para acesso do estudo');
+        if(count($result) == 0){
+            echo json_encode(["status" => "error", 'msg' => 'Estudo não encontrado, certifique-se que o nome de acesso está correto.']);
+            $pdo = null;
+            exit;
+        } else if($clearance < $result[0]['clearance']){
+            echo json_encode(["status" => "error", 'msg' => 'Clearance insuficiente para acessar registros do estudo.']);
+            $pdo = null;
+            exit;
         }
 
         $sql = "SELECT U.display_name as display, L.hora, L.texto FROM User_ U NATURAL JOIN Log L WHERE L.access_name = '$access'";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         sleep(1);
-        $retorno = array(
-            'display' => $result[0]['display'],
-            'access' => $result[0]['access'],
-            'logs' => $stmt->fetchAll(PDO::FETCH_ASSOC));
+        $retorno = ['status' => 'success',
+            'msg' => [
+                'display' => $result[0]['display'],
+                'access' => $result[0]['access'],
+                'logs' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+            ]
+        ];
         echo json_encode($retorno);
     }
     $pdo = null;
+    exit;
 ?>

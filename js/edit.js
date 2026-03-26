@@ -8,6 +8,7 @@ $('#create-user').on('click', ()=>{
                 <input name='display' type='text' placeholder='Nome/Apelido'>
                 <input name='senha' type='password' placeholder='********'>
                 <input name='confirma senha' type='password' placeholder='confirmar ********'>
+                <input name='dica' type='text' placeholder='Dica da Senha'>
                 <label for='clearence'>Clearence</label><input name='clearance' type='number' value=0>
             </form>
         `,
@@ -25,6 +26,7 @@ $('#create-user').on('click', ()=>{
                         displayname: this.$content.find('input[name="display"]').val(),
                         password: this.$content.find('input[name="senha"]').val(),
                         clearance: this.$content.find('input[name="clearance"]').val(),
+                        dica: this.$content.find('input[name="dica"]').val()
                     };
                     if(user.password != this.$content.find('input[name="confirma senha"]').val()){
                         $.alert({
@@ -46,15 +48,20 @@ function create_user(user){
         type: 'POST',
         url: './PHP/user.php',
         data: user,
-        error: (_, status, msg) =>{
-            errito('Erro na criação de usuário', status, msg);
+        error: (_, __, ___) =>{
+            server_error(_, __, ___);
             proceed_to('#loggedin');
         },
-        success: () =>{
-            $.alert({
-                theme: 'hacker',
-                title: 'Usuário criado com sucesso!'
-            });
+        success: (obj) =>{
+            if(obj.status=='error'){
+                errito('Erro ao criar usuário', obj.msg);
+            } else {
+                $.alert({
+                    theme: 'hacker',
+                    title: 'Usuário criado com sucesso!',
+                    content: ''
+                });
+            }
             proceed_to('#loggedin');
         }
     });
@@ -98,15 +105,19 @@ function create_study(study){
         type: 'POST',
         url: './PHP/study.php',
         data: study,
-        error: (_, status, msg) =>{
-            errito('Erro na criação de estudo.', status, msg);
+        error: (_, __, ___) =>{
+            server_error(_, __, ___);
             proceed_to('#loggedin');
         },
-        success: () =>{
-            $.alert({
-                theme: 'hacker',
-                title: 'Estudo criado com sucesso!'
-            });
+        success: (obj) =>{
+            if(obj.status == 'error'){
+                errito('Erro ao criar estudo', obj.msg);
+            } else {
+                $.alert({
+                    theme: 'hacker',
+                    title: 'Estudo criado com sucesso!'
+                });
+            }
             proceed_to('#loggedin');
         }
     });
