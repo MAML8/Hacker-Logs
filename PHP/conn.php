@@ -3,7 +3,7 @@
     $usuario = 'root';
     $senha = '';
     $banco = 'HackerLogs';
-    $dsn = "mysql:host={$host};port=3306;dbname={$banco}";
+    $dsn = "mysql:host={$host};port=3306;dbname={$banco};charset=utf8mb4";
     try {
         $pdo = new PDO($dsn, $usuario, $senha);
     }
