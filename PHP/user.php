@@ -18,7 +18,7 @@
 
         $dica = 'NULL';
         if(isset($_POST['dica']))
-            $dica = "'" + $_POST['dica'] + "'";
+            $dica = "'" . $_POST['dica'] . "'";
         $password = password_hash($password, PASSWORD_DEFAULT);
 
 
