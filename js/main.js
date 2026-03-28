@@ -141,7 +141,7 @@ function send_log(){
             proceed_to('#study');
         },
         success: (obj) =>{
-            if(obj.status = 'error'){
+            if(obj.status == 'error'){
                 errito("Erro ao enviar registro", obj.msg);
                 proceed_to('#study');
             } else {
